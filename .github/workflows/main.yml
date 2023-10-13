@@ -35,7 +35,7 @@ jobs:
         POSTGRES_USER: foodgram_user
         POSTGRES_PASSWORD: foodgram_password
         POSTGRES_DB: foodgram
-        DB_HOST: db
+        DB_HOST: 127.0.0.1
         DB_PORT: 5432
         SECRET_KEY: 'y95y09*m!tel5$%3go32x_n8)9hxinc&7+=*#7s)qt*1dc&n4a'
         DEBUG: True
