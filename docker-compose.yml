@@ -27,7 +27,7 @@ services:
     volumes:
       - static:/static
 
-  nginx:
+  gateway:
     build: ./infra/
     env_file: .env
     ports:
