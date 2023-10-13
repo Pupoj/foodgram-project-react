@@ -17,8 +17,8 @@ services:
     image: pupok48/foodgram_backend:latest
     env_file: .env
     volumes:
-      - backend_static:/app/static
-      - backend_media:/app/media
+      - static:/static
+      - media:/media
     depends_on:
       - db
 
@@ -27,7 +27,7 @@ services:
     command: cp -r /app/build/. /static/
     env_file: .env
     volumes:
-      - static:/app/result_build/build
+      - static:/static
 
   gateway:
     image: pupok48/foodgram_gateway:latest
