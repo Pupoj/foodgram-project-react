@@ -1,7 +1,7 @@
 version: '3.3'
 
 volumes:
-  static:
+  static_volume:
   media:
   postgres_data:
 
@@ -17,25 +17,25 @@ services:
     image: pupok48/foodgram_backend:latest
     env_file: .env
     volumes:
-      - static:/static
-      - media:/media
+      - static_volume:/backend_static
+      - media:/app/media/
     depends_on:
       - db
 
   frontend:
     image: pupok48/foodgram_frontend:latest
-    command: cp -r /app/build/. /static/
+    command: cp -r /app/build/. /frontend_static/
     env_file: .env
     volumes:
-      - static:/static
+      - static_volume:/frontend_static
 
   gateway:
     image: pupok48/foodgram_gateway:latest
     ports:
       - 9090:80
     volumes:
-      - static:/static/
-      - media:/media/
+      - static_volume:/static/
+      - media:/app/media/
     depends_on:
       - backend
       - frontend
