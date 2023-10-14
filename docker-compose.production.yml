@@ -34,7 +34,6 @@ services:
     ports:
       - "8000:80"
     volumes:
-      - static:/usr/share/nginx/html/
       - backend_static:/backend_static
       - backend_media:/backend_media
     depends_on:
