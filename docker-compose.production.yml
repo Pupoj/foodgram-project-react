@@ -30,9 +30,9 @@ services:
       - static:/app/result_build/build
 
   gateway:
-    image: nginx:1.22.1
+    image: pupok48/foodgram_gateway:latest
     ports:
-      - "80:80"
+      - "8000:80"
     volumes:
       - static:/usr/share/nginx/html/
       - backend_static:/backend_static
