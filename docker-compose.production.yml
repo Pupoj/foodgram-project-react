@@ -30,13 +30,12 @@ services:
       - static:/app/result_build/build
 
   gateway:
-    image: pupok48/foodgram_gateway:latest
+    image: nginx:1.22.1
     ports:
-      - "8000:80"
+      - "80:80"
     volumes:
       - static:/usr/share/nginx/html/
       - backend_static:/backend_static
       - backend_media:/backend_media
     depends_on:
       - backend
-      - frontend
