@@ -101,7 +101,7 @@ class RecipeReadSerializer(ModelSerializer):
     ingredients = SerializerMethodField()
     image = Base64ImageField()
     is_favorited = SerializerMethodField(read_only=True)
-    in_shopping_cart = SerializerMethodField(read_only=True)
+    is_in_shopping_cart = SerializerMethodField(read_only=True)
 
     class Meta:
         model = Recipe
@@ -111,7 +111,7 @@ class RecipeReadSerializer(ModelSerializer):
             'author',
             'ingredients',
             'is_favorited',
-            'in_shopping_cart',
+            'is_in_shopping_cart',
             'name',
             'image',
             'text',
@@ -134,7 +134,7 @@ class RecipeReadSerializer(ModelSerializer):
             return False
         return user.favorites.filter(recipe=obj).exists()
 
-    def get_in_shopping_cart(self, obj):
+    def get_is_in_shopping_cart(self, obj):
         user = self.context.get('request').user
         if user.is_anonymous:
             return False
@@ -196,8 +196,7 @@ class RecipeWriteSerializer(ModelSerializer):
         tags_list = []
         for tag in tags:
             if tag in tags_list:
-                raise ValidationError(
-                    {'tags': 'Теги должны быть уникальными!'})
+                raise ValidationError({'tags': 'Тег не уникален!'})
             tags_list.append(tag)
         return value
 
