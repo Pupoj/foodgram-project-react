@@ -38,5 +38,6 @@ services:
       - static:/usr/share/nginx/html/
       - backend_static:/backend_static
       - backend_media:/backend_media
+      - ../docs/:/usr/share/nginx/html/api/docs/
     depends_on:
       - backend
