@@ -27,8 +27,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['pupoktestsite.ddns.net', '127.0.0.1', 'localhost']
-
+ALLOWED_HOSTS = ['130.193.40.232', '127.0.0.1', 'localhost', 'pupoktestsite.ddns.net'] 
 
 # Application definition
 
