@@ -31,8 +31,8 @@ class Tag(models.Model):
         max_length=7,
         validators=[
             RegexValidator(
-                regex='^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$',
-                message='Введенное значение не является цветом в формате HEX!'
+                regex=r'^[\w.@+-]+$',
+                message='Символы не являются цветом в формате HEX!'
             )
         ]
     )

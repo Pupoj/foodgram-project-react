@@ -51,3 +51,4 @@ docker compose exec backend python manage.py collectstatic
 docker compose exec backend cp -r /app/static/. /backend_static/
 ```
 Перейти на локальный сервер для проверки : http://localhost/
+Рабочий проект: https://pupoktestsite.ddns.net/
