@@ -1,18 +1,15 @@
 import json
 import os
-from pathlib import Path
 
 from django.core.management.base import BaseCommand
+from foodgram.settings import DATA_DIR
 from recipes.models import Ingredient
-
-BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
-        file_name = 'ingredients.json'
-        json_path = os.path.join(BASE_DIR, 'data')
+        json_path = os.path.join(DATA_DIR, 'ingredients.json')
         try:
             with open(json_path, 'rb') as file:
                 data = json.load(file)
@@ -26,5 +23,5 @@ class Command(BaseCommand):
                 Ingredient.objects.bulk_create(ingredients)
             print('finished')
         except FileNotFoundError:
-            print(f'Файл {file_name} не найден.')
+            print('Файл не найден.')
             return
