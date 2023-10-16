@@ -1,9 +1,9 @@
 from datetime import datetime
 
+from django.contrib.auth import get_user_model
 from django.db.models import Sum
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
-from django.contrib.auth import get_user_model
 from djoser.views import UserViewSet
 from django_filters.rest_framework import DjangoFilterBackend
 from recipes.models import (Favourite, Ingredient, IngredientInRecipe, Recipe,
