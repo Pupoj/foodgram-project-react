@@ -16,6 +16,8 @@ User = get_user_model()
 
 
 class CustomUserCreateSerializer(UserCreateSerializer):
+    """Сериализатор для создания User."""
+
     class Meta:
         model = User
         fields = tuple(User.REQUIRED_FIELDS) + (
@@ -25,6 +27,8 @@ class CustomUserCreateSerializer(UserCreateSerializer):
 
 
 class CustomUserSerializer(UserSerializer):
+    """Сериализатор для отображения User."""
+
     is_subscribed = SerializerMethodField(read_only=True)
 
     class Meta:
@@ -42,10 +46,11 @@ class CustomUserSerializer(UserSerializer):
         user = self.context.get('request').user
         if user.is_anonymous:
             return False
-        return Subscribe.objects.filter(user=user, author=obj).exists()
+        return user.subscriber.filter(author=obj).exists()
 
 
 class SubscribeSerializer(CustomUserSerializer):
+    """Сериализатор для модели Subscribe."""
     recipes_count = SerializerMethodField()
     recipes = SerializerMethodField()
 
@@ -84,18 +89,24 @@ class SubscribeSerializer(CustomUserSerializer):
 
 
 class IngredientSerializer(ModelSerializer):
+    """Сериализатор для модели Ingredient."""
+
     class Meta:
         model = Ingredient
         fields = '__all__'
 
 
 class TagSerializer(ModelSerializer):
+    """Сериализатор для модели Tag."""
+
     class Meta:
         model = Tag
         fields = '__all__'
 
 
 class RecipeReadSerializer(ModelSerializer):
+    """Сериализатор для чтения рецептов."""
+
     tags = TagSerializer(many=True, read_only=True)
     author = CustomUserSerializer(read_only=True)
     ingredients = SerializerMethodField()
@@ -142,6 +153,8 @@ class RecipeReadSerializer(ModelSerializer):
 
 
 class IngredientInRecipeWriteSerializer(ModelSerializer):
+    """Сериализатор для ингредиентов при создании рецепта."""
+
     id = IntegerField(write_only=True)
 
     class Meta:
@@ -150,6 +163,8 @@ class IngredientInRecipeWriteSerializer(ModelSerializer):
 
 
 class RecipeWriteSerializer(ModelSerializer):
+    """Сериализатор записи рецептов."""
+
     tags = PrimaryKeyRelatedField(queryset=Tag.objects.all(),
                                   many=True)
     author = CustomUserSerializer(read_only=True)
@@ -239,6 +254,7 @@ class RecipeWriteSerializer(ModelSerializer):
 
 
 class RecipeShortSerializer(ModelSerializer):
+    """Сериализатор рецептов."""
     image = Base64ImageField()
 
     class Meta:

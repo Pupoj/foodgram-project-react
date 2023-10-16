@@ -27,6 +27,8 @@ User = get_user_model()
 
 
 class CustomUserViewSet(UserViewSet):
+    """Вьюсет класса User."""
+
     queryset = User.objects.all()
     serializer_class = CustomUserSerializer
     pagination_class = LimitPageNumberPagination
@@ -71,6 +73,8 @@ class CustomUserViewSet(UserViewSet):
 
 
 class IngredientViewSet(ReadOnlyModelViewSet):
+    """Вьюсет класса Ingredient."""
+
     queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer
     permission_classes = (IsAdminOrReadOnly,)
@@ -79,12 +83,16 @@ class IngredientViewSet(ReadOnlyModelViewSet):
 
 
 class TagViewSet(ReadOnlyModelViewSet):
+    """Вьюсет класса Tag."""
+
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
     permission_classes = (IsAdminOrReadOnly,)
 
 
 class RecipeViewSet(ModelViewSet):
+    """Вьюсет класса Recipe."""
+
     queryset = Recipe.objects.all()
     permission_classes = (IsAuthorOrReadOnly | IsAdminOrReadOnly,)
     pagination_class = LimitPageNumberPagination

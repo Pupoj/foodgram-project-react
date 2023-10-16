@@ -4,6 +4,8 @@ from django.db.models import UniqueConstraint
 
 
 class User(AbstractUser):
+    """Модель User."""
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = [
         'username',
@@ -26,6 +28,8 @@ class User(AbstractUser):
 
 
 class Subscribe(models.Model):
+    """Модель Subscribe."""
+
     user = models.ForeignKey(
         User,
         related_name='subscriber',
