@@ -21,7 +21,8 @@ from .pagination import LimitPageNumberPagination
 from .permissions import IsAdminOrReadOnly, IsAuthorOrReadOnly
 from .serializers import (IngredientSerializer, RecipeReadSerializer,
                           RecipeShortSerializer, RecipeWriteSerializer,
-                          TagSerializer, CustomUserSerializer, SubscribeSerializer)
+                          TagSerializer, CustomUserSerializer,
+                          SubscribeSerializer)
 
 User = get_user_model()
 
