@@ -11,7 +11,7 @@ from rest_framework.relations import PrimaryKeyRelatedField
 from rest_framework.serializers import ModelSerializer
 
 from recipes.models import (Ingredient, IngredientInRecipe,
-                            Recipe, Tag, ShoppingCart)
+                            Recipe, Tag)
 from users.models import Subscribe
 
 User = get_user_model()
@@ -114,7 +114,7 @@ class RecipeReadSerializer(ModelSerializer):
     ingredients = SerializerMethodField()
     image = Base64ImageField()
     is_favorited = SerializerMethodField(read_only=True)
-    is_in_shopping_cart = SerializerMethodField()
+    is_in_shopping_cart = SerializerMethodField(read_only=True)
 
     class Meta:
         model = Recipe
@@ -148,17 +148,10 @@ class RecipeReadSerializer(ModelSerializer):
         return user.favorites.filter(recipe=obj).exists()
 
     def get_is_in_shopping_cart(self, obj):
-        request = self.context.get('request')
-        user = request.user
-        try:
-            return (
-                user.is_anonymous
-                and user.shopping_cart.recipes.filter(
-                    pk__in=(obj.pk,)
-                ).exists()
-            )
-        except ShoppingCart.DoesNotExist:
+        user = self.context.get('request').user
+        if user.is_anonymous:
             return False
+        return user.shopping_cart.filter(recipe=obj).exists()
 
 
 class IngredientInRecipeWriteSerializer(ModelSerializer):
