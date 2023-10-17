@@ -115,7 +115,7 @@ class RecipeReadSerializer(ModelSerializer):
     ingredients = SerializerMethodField()
     image = Base64ImageField()
     is_favorited = SerializerMethodField(read_only=True)
-    is_in_shopping_cart = SerializerMethodField(read_only=True)
+    is_in_shopping_cart = SerializerMethodField()
 
     class Meta:
         model = Recipe
@@ -149,10 +149,17 @@ class RecipeReadSerializer(ModelSerializer):
         return user.favorites.filter(recipe=obj).exists()
 
     def get_is_in_shopping_cart(self, obj):
-        user = self.context.get('request').user
-        if user.is_anonymous:
+        request = self.context.get('request')
+        user = request.user
+        try:
+            return (
+                user.is_anonymous and
+                user.shopping_cart.recipes.filter(
+                    pk__in=(obj.pk,)
+                ).exists()
+            )
+        except ShoppingCart.DoesNotExist:
             return False
-        return user.shopping_cart.filter(recipe=obj).exists()
 
 
 class IngredientInRecipeWriteSerializer(ModelSerializer):
@@ -268,19 +275,3 @@ class RecipeShortSerializer(ModelSerializer):
             'image',
             'cooking_time'
         )
-
-
-class ShoppingCartSerializer(ModelSerializer):
-    """Сериализатор для модели ShoppingCart."""
-
-    class Meta:
-        model = ShoppingCart
-        fields = '__all__'
-        read_only_fields = ('__all__',)
-        validators = [
-            UniqueTogetherValidator(
-                queryset=ShoppingCart.objects.all(),
-                fields=('user', 'recipe'),
-                message='Этот рецепт уже в списке покупок.'
-            )
-        ]
