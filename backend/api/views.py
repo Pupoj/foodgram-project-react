@@ -22,7 +22,7 @@ from .permissions import IsAdminOrReadOnly, IsAuthorOrReadOnly
 from .serializers import (CustomUserSerializer, IngredientSerializer,
                           RecipeReadSerializer, RecipeShortSerializer,
                           RecipeWriteSerializer, SubscribeSerializer,
-                          TagSerializer)
+                          TagSerializer, ShoppingCartSerializer)
 
 User = get_user_model()
 
@@ -126,7 +126,7 @@ class RecipeViewSet(ModelViewSet):
     )
     def shopping_cart(self, request, pk):
         if request.method == 'POST':
-            return self.add_to(ShoppingCart, request.user, pk)
+            return self.add_to(ShoppingCartSerializer, request.user, pk)
         else:
             return self.delete_from(ShoppingCart, request.user, pk)
 
