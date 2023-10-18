@@ -23,7 +23,6 @@ class RecipeFilter(FilterSet):
     )
 
     is_favorited = filters.BooleanFilter(method='filter_is_favorited')
-    # i = filters.BooleanFilter(method='filter_in_shopping_cart')
     is_in_shopping_cart = filters.BooleanFilter(
         method='filter_is_in_shopping_cart'
     )
